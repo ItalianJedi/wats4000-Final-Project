@@ -2,14 +2,12 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <h4>A Vue JS Project Using The Open Movie Database API</h4>
-<!-- TODO: Will want to set up a on click event listener -->
-      <form on-submit:prevent="findMovies"> 
+      <form v-on:submit.prevent="findMovies"> 
         <p>Enter Movie Title: <input type="text" v-model="title" placeholder="Movie Title"> <button type="submit">Go</button></p>
       </form>
-<!-- TODO: Unordered list with v-for loop to loop the results of search -->
       <ul v-if="results && results.length > 0" class="results">
         <li v-for="item in results" class="item">
-          <h2>{{ item.title }}</h2>
+          <p><strong>{{ item.title }}</strong></p>
         </li>
 <!-- TODO: will want to bring back movie poster, title, and plot -->
       </ul>
@@ -29,10 +27,8 @@
 
 <script>
 import axios from 'axios';
-//key: bef8787f
-//OMDb API: http://www.omdbapi.com/?i=tt3896198&apikey=bef8787f
-//TODO: s is the parameter for title, which is what the user will be searching for
-
+//Note: According to the OMDb API documentation, you need to send all data requests to http://www.omdbapi.com/?apikey=[yourkey]&
+//Note: s is the parameter for searching
 
 export default {
   name: 'HelloWorld',
@@ -49,8 +45,7 @@ export default {
       findMovies: function() {
         axios.get('http://www.omdbapi.com/?apikey=bef8787f&', {
           params: {
-            APPID: 'bef8787f',
-            t: this.title,
+            s: this.title,
             plot: this.plot
           }
         })
@@ -71,6 +66,8 @@ export default {
 h1, h2 {
   font-weight: normal;
 }
+
+/*
 ul {
   list-style-type: none;
   padding: 0;
@@ -78,6 +75,31 @@ ul {
 li {
   display: inline-block;
   margin: 0 10px;
+}*/
+
+ul.results {
+  list-style-type: none;
+  padding: 0;
+}
+
+.results li {
+  display: inline-block;
+  margin: 10px;
+  border: solid 1px #333;
+  padding: 0.5rem;
+  width: 200px;
+  min-height: 100px;
+  color: #fff;
+  background: rgba(0,0,0,0.7);
+}
+ul.errors {
+  list-style-type: none;
+}
+.errors li {
+  border: 1px solid red;
+  color: red;
+  padding: 0.5rem;
+  margin: 10px 0;
 }
 a {
   color: #42b983;
