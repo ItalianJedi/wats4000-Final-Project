@@ -28,12 +28,10 @@
   </div>
 </template>
 
-
 <script>
 import axios from 'axios';
 //Note: According to the OMDb API documentation, you need to send all data requests to http://www.omdbapi.com/?apikey=[yourkey]&
 //Note: s is the parameter for searching
-//test
 
 export default {
   name: 'HelloWorld',

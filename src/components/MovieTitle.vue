@@ -3,13 +3,13 @@
     <h1>{{ msg }}</h1>
     <h4>A Vue JS Project Using The Open Movie Database API</h4>
       <form v-on:submit.prevent="findMovies"> 
-        <p>Find a Movie: <input type="text" v-model="movie" placeholder="Movie Search"> <button type="submit">Go</button></p>
+        <p>Enter Movie Title: <input type="text" v-model="movie" placeholder="Movie Title"> <button type="submit">Go</button></p>
       </form>
 
 <!-- TODO: will want to bring back movie poster, title, and plot -->
       <ul v-if="results && results.length > 0" class="results">
         <li v-for="item in results" class="item">
-          <p><strong>{{ item.Title }}</strong></p>
+          <p><strong>{{ item.Plot }}</strong></p>
         </li>
       </ul>
 
@@ -28,12 +28,10 @@
   </div>
 </template>
 
-
 <script>
 import axios from 'axios';
 //Note: According to the OMDb API documentation, you need to send all data requests to http://www.omdbapi.com/?apikey=[yourkey]&
 //Note: s is the parameter for searching
-//test
 
 export default {
   name: 'HelloWorld',
@@ -49,12 +47,12 @@ export default {
       findMovies: function() {
         axios.get('http://www.omdbapi.com/?apikey=bef8787f&', {
           params: {
-            s: this.movie
+            t: this.movie
           }
         })
         .then( response => {
-          console.log(response);
-          this.results = response.data.Search;
+          //this.results = response.data;
+          this.results = response.data;
         })
         .catch ( error => {
           this.errors.push(error);
