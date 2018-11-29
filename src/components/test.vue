@@ -10,6 +10,7 @@
       <ul v-if="results && results.length > 0" class="results">
         <li v-for="item in results" class="item">
           <p><strong>{{ item.Title }}</strong></p>
+          <p>{{ item.Year }}</p>
         </li>
       </ul>
 
