@@ -41,7 +41,7 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Movie Search',
+      msg: 'Movie Search Vue',
       results: '',
       errors: [],
       movie: ''
