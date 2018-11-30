@@ -10,7 +10,7 @@
       <ul v-if="results && results.length > 0" class="results">
         <li v-for="item in results" class="item">
           <p><strong>{{ item.Title }}</strong></p>
-          <p>{{ item.Poster }}</p>
+          <p>{{ item.Type }}</p>
           <p>{{ item.Year }}</p>
         </li>
       </ul>
@@ -49,8 +49,9 @@ export default {
   },
     methods: {
       findMovies: function() {
-        axios.get('http://www.omdbapi.com/?apikey=bef8787f&', {
+        axios.get('http://www.omdbapi.com/?apikey=bef8787f&',{
           params: {
+//Using s as the parameter works but will have to add "Search" this.results = response.data;
             s: this.movie
           }
         })
@@ -62,7 +63,7 @@ export default {
           this.errors.push(error);
         })
       }
-    }
+    },
     }
 </script>
 
