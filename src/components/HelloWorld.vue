@@ -12,6 +12,7 @@
           <p><strong>{{ item.Title }}</strong></p>
           <p>{{ item.Type }}</p>
           <p>{{ item.Year }}</p>
+          <img v-bind:src="item.Poster" alt="item.Title" height="300" width="225">
         </li>
       </ul>
 
