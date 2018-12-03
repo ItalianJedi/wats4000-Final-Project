@@ -68,6 +68,8 @@ export default {
     }
 </script>
 
+
+
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <!-- TODO: add some animations -->
 <style scoped>
@@ -75,7 +77,6 @@ h1, h2 {
   font-weight: normal;
 }
 
-/*
 ul {
   list-style-type: none;
   padding: 0;
@@ -93,12 +94,12 @@ ul.results {
 .results li {
   display: inline-block;
   margin: 10px;
-  border: solid 1px #333;
+  border: solid 10px #333;
   padding: 0.5rem;
   /*width: 200px;*/
   min-height: 100px;
-  color: #fff;
-  background: rgba(0,0,0,0.7);
+  color: #3B3939;
+  background: #D9D4D4;
 }
 ul.errors {
   list-style-type: none;
