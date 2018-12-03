@@ -5,15 +5,19 @@
       <form v-on:submit.prevent="findMovies"> 
         <p>Find a Movie: <input type="text" v-model="movie" placeholder="Movie Search"> <button type="submit">Go</button></p>
       </form>
-
-<!-- TODO: will want to bring back movie poster, title, and plot -->
+      
       <ul v-if="results && results.length > 0" class="results">
-        <li v-for="item in results" class="item">
+        <spinner v-if="showSpinner"></spinner>
+        <hr>
+        <h2>Results</h2>
+        <transition-group name="zoomIn" enter-active-class="animated zoomIn">
+        <li v-for="item in results" class="item" v-bind:key="item.Title">
           <p><strong>{{ item.Title }}</strong></p>
           <p>{{ item.Type }}</p>
           <p>{{ item.Year }}</p>
           <img v-bind:src="item.Poster" alt="item.Title" height="300" width="225">
         </li>
+        </transition-group>
       </ul>
 
 <!-- TODO: make sure No Movies Found works -->
@@ -22,7 +26,6 @@
         <p>Oh Come On! It's not that hard to find a movie!</p>
       </div>
 
-<!-- I tested this and error message works -->
       <ul v-if="errors.length > 0" class="errors">
         <li v-for="error in errors">
           {{ error.message }}
@@ -36,20 +39,27 @@
 import axios from 'axios';
 //Note: According to the OMDb API documentation, you need to send all data requests to http://www.omdbapi.com/?apikey=[yourkey]&
 //Note: s is the parameter for searching
-//test
+//test the t parameter
+import CubeSpinner from '@/components/CubeSpinner';
+
 
 export default {
   name: 'HelloWorld',
+  components: {
+  spinner: CubeSpinner
+  },
   data () {
     return {
       msg: 'Movie Search Vue',
       results: '',
       errors: [],
-      movie: ''
+      movie: '',
+      showSpinner: false
     }
   },
     methods: {
       findMovies: function() {
+        this.showSpinner = true,
         axios.get('http://www.omdbapi.com/?apikey=bef8787f&',{
           params: {
 //Using s as the parameter works but will have to add "Search" this.results = response.data;
@@ -58,9 +68,12 @@ export default {
         })
         .then( response => {
           console.log(response);
+          this.showSpinner = false,
           this.results = response.data.Search;
         })
         .catch ( error => {
+          console.log(error);
+          this.showSpinner = false,
           this.errors.push(error);
         })
       }
@@ -73,6 +86,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <!-- TODO: add some animations -->
 <style scoped>
+@import "https://cdn.jsdelivr.net/npm/animate.css@3.5.1";
+
 h1, h2 {
   font-weight: normal;
 }
@@ -101,6 +116,10 @@ ul.results {
   min-height: 100px;
   color: #3B3939;
   background: #D9D4D4;
+}
+
+.no-results li {
+  border-style: dotted;
 }
 ul.errors {
   list-style-type: none;
