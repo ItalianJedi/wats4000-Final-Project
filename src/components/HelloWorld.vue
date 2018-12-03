@@ -1,20 +1,20 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1><strong>{{ msg }}</strong></h1>
     <h4>A Vue JS Project Using The Open Movie Database API</h4>
       <form v-on:submit.prevent="findMovies"> 
-        <p>Find a Movie: <input type="text" v-model="movie" placeholder="Movie Search"> <button type="submit">Go</button></p>
+        <p><strong>Find a Movie:&nbsp;</strong><input type="text" v-model="movie" placeholder="Movie Search"> <button type="submit">Go</button></p>
       </form>
       
       <ul v-if="results && results.length > 0" class="results">
         <spinner v-if="showSpinner"></spinner>
         <hr>
-        <h2>Results</h2>
+        <h2>&#9734;&nbsp;<strong>Results</strong>&nbsp;&#9734;</h2>
         <transition-group name="zoomIn" enter-active-class="animated zoomIn">
         <li v-for="item in results" class="item" v-bind:key="item.Title">
           <p><strong>{{ item.Title }}</strong></p>
-          <p>{{ item.Type }}</p>
-          <p>{{ item.Year }}</p>
+          <p><strong>{{ item.Type }}</strong></p>
+          <p><strong>{{ item.Year }}</strong></p>
           <img v-bind:src="item.Poster" alt="item.Title" height="300" width="225">
         </li>
         </transition-group>
@@ -132,5 +132,10 @@ ul.errors {
 }
 a {
   color: #42b983;
+}
+
+hr {
+  margin-left: 75px;
+  margin-right: 75px;
 }
 </style>
