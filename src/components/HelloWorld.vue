@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <h1><strong>{{ msg }}</strong></h1>
-    <h4>A Vue JS Project Using The Open Movie Database API</h4>
+    <h4><strong>A Vue JS Project Using The Open Movie Database API</strong></h4>
       <form v-on:submit.prevent="findMovies"> 
         <p><strong>Find a Movie:&nbsp;</strong><input type="text" v-model="movie" placeholder="Movie Search"> <button type="submit">Go</button></p>
       </form>
@@ -31,22 +31,27 @@
           {{ error.message }}
         </li>
       </ul>
+
   </div>
+
 </template>
 
 
 <script>
-import axios from 'axios';
+import {API} from '@/common/api';
+//import axios from 'axios'; -- old
 //Note: According to the OMDb API documentation, you need to send all data requests to http://www.omdbapi.com/?apikey=[yourkey]&
 //Note: s is the parameter for searching
 //test the t parameter
-import CubeSpinner from '@/components/CubeSpinner';
+//import CubeSpinner from '@/components/CubeSpinner';
+import FadingCircle from '@/components/ChasingDots';
 
 
 export default {
   name: 'HelloWorld',
   components: {
-  spinner: CubeSpinner
+  //spinner: CubeSpinner
+  spinner: FadingCircle
   },
   data () {
     return {
@@ -60,7 +65,8 @@ export default {
     methods: {
       findMovies: function() {
         this.showSpinner = true,
-        axios.get('http://www.omdbapi.com/?apikey=bef8787f&',{
+        //axios.get('http://www.omdbapi.com/?apikey=bef8787f&',{
+          API.get('find', {
           params: {
 //Using s as the parameter works but will have to add "Search" this.results = response.data;
             s: this.movie
@@ -74,7 +80,7 @@ export default {
         .catch ( error => {
           console.log(error);
           this.showSpinner = false,
-          this.errors.push(error);
+          this.errors.push(errors);
         })
       }
     },
