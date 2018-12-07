@@ -1,21 +1,27 @@
 <template>
   <div class="hello">
-    <h1><strong>{{ msg }}</strong></h1>
-    <h4><strong>A Vue JS Project Using The Open Movie Database API</strong></h4>
+    <h1>{{ msg }}</h1>
+    <h4>A Vue JS Project Using The Open Movie Database API</h4>
       <form v-on:submit.prevent="findMovies"> 
-        <p><strong>Find a Movie:&nbsp;</strong><input type="text" v-model="movie" placeholder="Movie Search"> <button type="submit">Go</button></p>
+        <p>Find a Movie:&nbsp;<input type="text" v-model="movie" placeholder="Movie Search"> <button type="submit">Go</button></p>
       </form>
-      
+
+      <hr>
+
+      <favmovies v-bind:favoriteMovies="movieList"></favmovies>
+
       <ul v-if="results && results.length > 0" class="results">
         <spinner v-if="showSpinner"></spinner>
         <hr>
-        <h2>&#9734;&nbsp;<strong>Results</strong>&nbsp;&#9734;</h2>
+        <h2>&#9734;&nbsp;Results&nbsp;&#9734;</h2>
         <transition-group name="zoomIn" enter-active-class="animated zoomIn">
         <li v-for="item in results" class="item" v-bind:key="item.Title">
-          <p><strong>{{ item.Title }}</strong></p>
-          <p><strong>{{ item.Type }}</strong></p>
-          <p><strong>{{ item.Year }}</strong></p>
+          <p>{{ item.Title }}</p>
+          <p>{{ item.Type }}</p>
+          <p>{{ item.Year }}</p>
           <img v-bind:src="item.Poster" alt="item.Title" height="300" width="225">
+          <br>
+          <p><button class="save" v-on:click="saveMovie(movie)">One Of My Favorites</button></p>
         </li>
         </transition-group>
       </ul>
@@ -44,14 +50,16 @@ import {API} from '@/common/api';
 //Note: s is the parameter for searching
 //test the t parameter
 //import CubeSpinner from '@/components/CubeSpinner';
-import FadingCircle from '@/components/ChasingDots';
+import ChasingDots from '@/components/ChasingDots';
+import FavoriteMovies from '@/components/FavoriteMovies';
 
 
 export default {
   name: 'HelloWorld',
   components: {
   //spinner: CubeSpinner
-  spinner: FadingCircle
+  spinner: ChasingDots,
+  favmovies: FavoriteMovies
   },
   data () {
     return {
@@ -59,10 +67,20 @@ export default {
       results: '',
       errors: [],
       movie: '',
+      movieList: [],
       showSpinner: false
     }
   },
+  created () {
+    if (this.$ls.get('favoriteMovies')) {
+      this.favoriteMovies = this.$ls.get('favoriteMovies');
+    }
+  },
     methods: {
+      saveMovie: function (movie) {
+        this.movieList.push(movie);
+        this.$ls.set('favoriteMovies', this.movieList);
+      },
       findMovies: function() {
         this.showSpinner = true,
         //axios.get('http://www.omdbapi.com/?apikey=bef8787f&',{
@@ -94,8 +112,8 @@ export default {
 <style scoped>
 @import "https://cdn.jsdelivr.net/npm/animate.css@3.5.1";
 
-h1, h2 {
-  font-weight: normal;
+h1, h2, h4, p {
+  font-weight: bold;
 }
 
 ul {
@@ -105,7 +123,7 @@ ul {
 li {
   display: inline-block;
   margin: 0 10px;
-}*/
+}
 
 ul.results {
   list-style-type: none;
@@ -140,8 +158,9 @@ a {
   color: #42b983;
 }
 
-hr {
+/*hr {
   margin-left: 75px;
   margin-right: 75px;
-}
+  color: black;
+}*/
 </style>
