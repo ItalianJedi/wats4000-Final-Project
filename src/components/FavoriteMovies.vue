@@ -1,7 +1,7 @@
 <template>
     <ul class="favmovies">
         <li><h2><strong>Favorite Movies</strong></h2></li>
-        <li v-if="favoriteMovies.length < 1">Add some of your favorite movies.</li>
+        <li <h4 v-if="favoriteMovies.length < 1">Add some of your favorite movies.</h4></li>
         <li v-for="movie in favoriteMovies">
 
         </li>
